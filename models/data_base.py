@@ -65,7 +65,8 @@ class GeneticDB:
             ga.min,
             ga.taxa_crossover,
             ga.taxa_mutation,
-            ga.num_gen
+            ga.num_gen,
+            ga.max_fitness
         ))
         self.conn.commit()
         return self.cursor.lastrowid

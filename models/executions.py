@@ -7,7 +7,7 @@ class Executions:
 
     def save_execution(self, ga):
             """Salva os atributos principais do algoritmo genético"""
-            self.cursor.execute('''
+            self.db.cursor.execute('''
             INSERT INTO executions 
             (date, bit_size, x_bit_size, y_bit_size, max, min, taxa_crossover, taxa_mutation, num_gen, max_fitness)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
