@@ -17,6 +17,7 @@ class Genetic_Algorithm:
        self.taxa_crossover = 0.65
        self.taxa_mutation = 0.008
        self.new_population = []
+       self.max_value  = 0
 
     def initialize_population(self):
 
@@ -67,6 +68,7 @@ class Genetic_Algorithm:
             x, y = self.decode_coord_x_y(p)
       
             self.fitness.append(self.F6(x, y))
+            self.max_value = max(self.fitness)
         
 
     def select_parent(self):

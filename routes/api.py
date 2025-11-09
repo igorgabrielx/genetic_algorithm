@@ -17,3 +17,8 @@ def api_execute_ag():
 def api_start_async_ag():
     return controller.start_async_ag()
 
+
+@genetic.route("get-executions/<int:execution_id>", methods=["GET"])
+def api_get_executions(execution_id):
+    return controller.get_execution_id(execution_id)
+

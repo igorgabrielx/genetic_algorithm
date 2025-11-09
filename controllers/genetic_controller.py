@@ -15,7 +15,7 @@ class Genetic_Controller:
     def start_async_ag(self):
         queue_id = self.ex_queue.add_to_queue()
         thread = Thread(target=self.execute_ag, args=(queue_id,))
-        thread.start()  # inicia em background
+        thread.start()  
         return jsonify({
             "message": "Execução adicionada à fila.",
             "execution_id": queue_id
@@ -30,7 +30,7 @@ class Genetic_Controller:
             ag.initialize_population()
             ag.generate_fitness()
 
-            while ag.num_gen < 4000:
+            while ag.num_gen < 400:
                 ag.select_parent()
                 ag.beget_children()
                 ag.mutation()
@@ -49,3 +49,12 @@ class Genetic_Controller:
 
         finally:
             print(f"[INFO] Execução {queue_id} finalizada.")
+
+    def get_execution_id(self, id_execution):
+        data = self.execution.get_execution_by_id(id_execution)
+        return jsonify({
+            "status": 200,
+            "data": data
+        })
+
+        
