@@ -23,3 +23,12 @@ class Executions_queue:
             (status, end_time, queue_id)
         )
         self.db.conn.commit()
+
+    def get_queue_by_id(self, queue_id):
+        """Busca uma execução da fila pelo ID."""
+        self.db.cursor.execute("select * from executions_queue where id = ?", (queue_id,))
+        row = self.db.cursor.fetchone()
+        if row:
+            columns = [desc[0] for desc in self.db.cursor.description]
+            return dict(zip(columns, row))
+        return None

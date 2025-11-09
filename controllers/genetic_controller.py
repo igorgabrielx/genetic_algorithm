@@ -56,5 +56,20 @@ class Genetic_Controller:
             "status": 200,
             "data": data
         })
+    
+    def get_queue_id(self, id_queue):
+        data = self.ex_queue.get_queue_by_id(id_queue)
+        return jsonify({
+            "status": 200,
+            "data": data
+        })
+    
+    def get_all_execution(self):
+        data = self.execution.get_executions()
+        return jsonify({
+            "status": 200,
+            "data": data
+        })
+
 
         

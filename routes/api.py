@@ -21,3 +21,12 @@ def api_start_async_ag():
 def api_get_executions(execution_id):
     return controller.get_execution_id(execution_id)
 
+@genetic.route("get-all-executions", methods=["GET"])
+def api_get__all_executions():
+    return controller.get_all_execution()
+
+@genetic.route("get-status-queue/<int:queue_id>", methods=["GET"])
+def api_get_status_queue(queue_id):
+    return controller.get_queue_id(queue_id)
+
+
