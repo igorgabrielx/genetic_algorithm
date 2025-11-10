@@ -3,21 +3,47 @@ import math
 
 class Genetic_Algorithm:
 
-    def __init__(self):
-       self.pop_size   =  100
-       self.bit_size   =  44
-       self.x_bit_size =  22
-       self.y_bit_size =  22
-       self.max        =  100
-       self.min        = -100
-       self.population = []
-       self.fitness    = []
-       self.selected_individuals = []
-       self.num_gen = 0
-       self.taxa_crossover = 0.65
-       self.taxa_mutation = 0.008
-       self.new_population = []
-       self.max_value  = 0
+    # def __init__(self):
+    #    self.pop_size   =  100
+    #    self.bit_size   =  44
+    #    self.x_bit_size =  22
+    #    self.y_bit_size =  22
+    #    self.max        =  100
+    #    self.min        = -100
+    #    self.population = []
+    #    self.fitness    = []
+    #    self.selected_individuals = []
+    #    self.num_gen = 0
+    #    self.taxa_crossover = 0.65
+    #    self.taxa_mutation = 0.008
+    #    self.new_population = []
+    #    self.max_value  = 0
+    def __init__(
+        self,
+        pop_size=100,
+        bit_size=44,
+        x_bit_size=22,
+        y_bit_size=22,
+        max_val=100,
+        min_val=-100,
+        taxa_crossover=0.65,
+        taxa_mutation=0.008,
+        num_gen=0
+    ):
+        self.pop_size = pop_size
+        self.bit_size = bit_size
+        self.x_bit_size = x_bit_size
+        self.y_bit_size = y_bit_size
+        self.max = max_val
+        self.min = min_val
+        self.population = []
+        self.fitness = []
+        self.selected_individuals = []
+        self.num_gen = num_gen
+        self.taxa_crossover = taxa_crossover
+        self.taxa_mutation = taxa_mutation
+        self.new_population = []
+        self.max_value = 0
 
     def initialize_population(self):
 

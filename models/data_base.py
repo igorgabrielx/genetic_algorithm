@@ -7,6 +7,7 @@ class GeneticDB:
         self.conn = sqlite3.connect(db_name, check_same_thread=False)
         self.cursor = self.conn.cursor()
         self._create_tables()
+        self.populate_default_parameters()
 
     def _create_tables(self):
        """Cria as tabelas principais e de fila de execuções se não existirem."""
@@ -36,19 +37,23 @@ class GeneticDB:
             status TEXT CHECK(status IN ('pendente', 'executando', 'concluido', 'erro')) DEFAULT 'pendente'
         )
         ''')
+       
+       self.cursor.execute('''
+                CREATE TABLE IF NOT EXISTS execution_parameters (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    bit_size INTEGER,
+                    x_bit_size INTEGER,
+                    y_bit_size INTEGER,
+                    pop_size INTEGER,
+                    max REAL,
+                    min REAL,
+                    taxa_crossover REAL,
+                    taxa_mutation REAL,
+                    num_gen INTEGER
+                )
+        ''')
 
        self.conn.commit()
-
-    def create_table(self):
-        with self.connect() as conn:
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS executions_queue (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    start_time TEXT,
-                    end_time TEXT,
-                    status TEXT
-                )
-            """)
 
     def save_execution(self, ga):
         """Salva os atributos principais do algoritmo genético"""
@@ -73,3 +78,47 @@ class GeneticDB:
 
     def close(self):
         self.conn.close()
+
+    def populate_default_parameters(self):
+        """
+        Popula a tabela execution_parameters com os parâmetros padrão
+        do algoritmo genético, caso ela esteja vazia.
+        """
+        # Verifica se já existe algum registro
+        self.cursor.execute("SELECT COUNT(*) FROM execution_parameters")
+        count = self.cursor.fetchone()[0]
+
+        if count == 0:
+            default_params = {
+                "bit_size": 44,
+                "x_bit_size": 22,
+                "y_bit_size": 22,
+                "pop_size": 100,
+                "max": 100.0,
+                "min": -100.0,
+                "taxa_crossover": 0.65,
+                "taxa_mutation": 0.008,
+                "num_gen": 0
+            }
+
+            self.cursor.execute('''
+                INSERT INTO execution_parameters 
+                (bit_size, x_bit_size, y_bit_size, pop_size, max, min, taxa_crossover, taxa_mutation, num_gen)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                default_params["bit_size"],
+                default_params["x_bit_size"],
+                default_params["y_bit_size"],
+                default_params["pop_size"],
+                default_params["max"],
+                default_params["min"],
+                default_params["taxa_crossover"],
+                default_params["taxa_mutation"],
+                default_params["num_gen"]
+            ))
+
+            self.conn.commit()
+            print("Parâmetros padrão do algoritmo genético inseridos com sucesso!")
+        else:
+            print(" A tabela execution_parameters já possui registros. Nenhuma inserção feita.")
+
