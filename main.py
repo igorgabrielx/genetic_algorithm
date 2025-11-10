@@ -8,7 +8,10 @@ if __name__ == "__main__":
 
    ag.generate_fitness()
 
-   while ag.num_gen < 4000:
+   num_gen = ag.num_gen 
+   param_stop = 0
+
+   while param_stop < num_gen:
 
       ag.select_parent()
 
@@ -18,7 +21,7 @@ if __name__ == "__main__":
 
       ag.generate_fitness()
 
-      ag.num_gen = ag.num_gen + 1
+      param_stop = param_stop + 1
 
    print('Fim')
 

@@ -57,3 +57,13 @@ class Executions:
             print(f"Erro ao buscar execução: {e}")
             return None
         
+    def delete_all_executions(self):
+        """Deleta todas as execuções da tabela executions."""
+        try:
+            self.db.cursor.execute("DELETE FROM executions")
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print(f"Erro ao deletar execuções: {e}")
+            return False
+        

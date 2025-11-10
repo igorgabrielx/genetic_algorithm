@@ -94,7 +94,8 @@ class Genetic_Algorithm:
             x, y = self.decode_coord_x_y(p)
       
             self.fitness.append(self.F6(x, y))
-            self.max_value = max(self.fitness)
+        
+        self.max_value = max(self.fitness)
         
 
     def select_parent(self):

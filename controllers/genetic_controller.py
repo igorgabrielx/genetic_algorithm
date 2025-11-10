@@ -18,26 +18,27 @@ class Genetic_Controller:
         # queue_id = self.ex_queue.add_to_queue()
         # thread = Thread(target=self.execute_ag, args=(queue_id,))
         # thread.start()  
-        # return jsonify({
-        #     "message": "Execução adicionada à fila.",
-        #     "execution_id": queue_id
-        # })
+        
         data = request.get_json(force=True)
 
         pop_size = data.get("pop_size", 100)
         taxa_crossover = data.get("taxa_crossover", 0.65)
         taxa_mutation = data.get("taxa_mutation", 0.008)
-        num_gen = data.get("num_gen", 4000)
+        max_generations = data.get("num_gen", 4000)
         
         queue_id = self.ex_queue.add_to_queue()
 
         thread = Thread(
             target=self.execute_ag,
-            args=(queue_id, pop_size, taxa_crossover, taxa_mutation, num_gen)
+            args=(queue_id, pop_size, taxa_crossover, taxa_mutation, max_generations)
         )
         thread.start()
+        return jsonify({
+            "message": "Execução adicionada à fila.",
+            "execution_id": queue_id
+        })
     
-    def execute_ag(self, queue_id, pop_size=100, taxa_crossover=0.65, taxa_mutation=0.008, num_gen=4000):
+    def execute_ag(self, queue_id, pop_size=100, taxa_crossover=0.65, taxa_mutation=0.008, max_generations=4000):
         try:
             
             self.ex_queue.update_queue_status(queue_id, "executando")
@@ -45,20 +46,18 @@ class Genetic_Controller:
             ag = Genetic_Algorithm(
                 pop_size=pop_size,
                 taxa_crossover=taxa_crossover,
-                taxa_mutation=taxa_mutation,
-                num_gen=400
+                taxa_mutation=taxa_mutation
             )
             ag.initialize_population()
             ag.generate_fitness()
 
-            while ag.num_gen < 400:
+            while ag.num_gen < max_generations:
                 ag.select_parent()
                 ag.beget_children()
                 ag.mutation()
                 ag.generate_fitness()
                 ag.num_gen += 1
 
-            
             self.execution.save_execution(ag)
             self.ex_queue.update_queue_status(queue_id, "concluido")
 
@@ -108,6 +107,26 @@ class Genetic_Controller:
                 return {"error": "Nenhum registro atualizado ou ID não encontrado."}
         except Exception as e:
             return {"error": f"Erro ao atualizar parâmetros: {str(e)}"}
+        
+    def delete_all_executions(self):
+        """Deleta todas as execuções da tabela executions."""
+        try:
+            success = self.execution.delete_all_executions()
+            if success:
+                return jsonify({
+                    "status": 200,
+                    "message": "Todas as execuções foram deletadas com sucesso."
+                })
+            else:
+                return jsonify({
+                    "status": 500,
+                    "message": "Erro ao deletar as execuções."
+                })
+        except Exception as e:
+            return jsonify({
+                "status": 500,
+                "message": f"Erro no servidor: {str(e)}"
+            })
 
 
         

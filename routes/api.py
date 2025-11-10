@@ -30,6 +30,10 @@ def api_get__all_executions():
 def api_get_status_queue(queue_id):
     return controller.get_queue_id(queue_id)
 
+@genetic.route("delete-all-executions", methods=["GET"])
+def api_delete_all_executions():
+    return controller.delete_all_executions()
+
 @genetic.route("/parameters/<int:param_id>", methods=["POST"])
 def update_parameters(param_id):
     data = request.get_json()
