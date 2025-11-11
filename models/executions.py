@@ -9,8 +9,8 @@ class Executions:
             """Salva os atributos principais do algoritmo genético"""
             self.db.cursor.execute('''
             INSERT INTO executions 
-            (date, bit_size, x_bit_size, y_bit_size, max, min, taxa_crossover, taxa_mutation, num_gen, max_fitness)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (date, bit_size, x_bit_size, y_bit_size, max, min, taxa_crossover, taxa_mutation, num_gen, max_fitness, chromosome_max_value)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 datetime.datetime.now().isoformat(),
                 ga.bit_size,
@@ -21,7 +21,8 @@ class Executions:
                 ga.taxa_crossover,
                 ga.taxa_mutation,
                 ga.num_gen,
-                ga.max_value
+                ga.max_value,
+                ga.chromosome_max_value
             ))
             self.db.conn.commit()
             return self.db.cursor.lastrowid

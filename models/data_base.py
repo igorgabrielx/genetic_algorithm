@@ -24,7 +24,8 @@ class GeneticDB:
             taxa_crossover REAL,
             taxa_mutation REAL,
             num_gen INTEGER,
-            max_fitness REAL
+            max_fitness REAL,
+            chromosome_max_value TEXT      
         )
         ''')
 

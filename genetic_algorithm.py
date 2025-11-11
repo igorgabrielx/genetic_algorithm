@@ -44,6 +44,7 @@ class Genetic_Algorithm:
         self.taxa_mutation = taxa_mutation
         self.new_population = []
         self.max_value = 0
+        self.chromosome_max_value = ''
 
     def initialize_population(self):
 
@@ -94,8 +95,12 @@ class Genetic_Algorithm:
             x, y = self.decode_coord_x_y(p)
       
             self.fitness.append(self.F6(x, y))
-        
+
         self.max_value = max(self.fitness)
+
+        best_index = self.fitness.index(self.max_value)
+
+        self.chromosome_max_value = self.population[best_index] 
         
 
     def select_parent(self):
