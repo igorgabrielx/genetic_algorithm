@@ -101,6 +101,7 @@ class Genetic_Algorithm:
         best_index = self.fitness.index(self.max_value)
 
         self.chromosome_max_value = self.population[best_index] 
+        print(f'Value: {self.max_value} - Chromosome: {self.chromosome_max_value} \n')
         
 
     def select_parent(self):
@@ -124,6 +125,8 @@ class Genetic_Algorithm:
 
     def beget_children(self):
         r = random.random()
+        
+        self.new_population = max(self.selected_individuals)
 
         while len(self.new_population) < 100:
 
@@ -136,7 +139,7 @@ class Genetic_Algorithm:
                 else:
                     child_two = self.selected_individuals[i+1]
 
-                if r >= self.taxa_crossover:
+                if r < self.taxa_crossover:
                     corte = random.randint(1, 44)
                     child_01 = child_one[:corte] + child_two[corte:]
                     child_02 = child_two[:corte] + child_one[corte:]
@@ -156,20 +159,20 @@ class Genetic_Algorithm:
         pm = self.taxa_mutation
 
         for i, p in enumerate(self.population):
-            print(f'Antes da mutacao: {p}')
+            # print(f'Antes da mutacao: {p}')
 
             # converte a string em lista de caracteres (mutável)
             genes = list(p)
 
             for j, gene in enumerate(genes):
                 if random.random() < pm:
-                    print(f'Mutando gene na posição {j}')
+                    # print(f'Mutando gene na posição {j}')
                     # inverte o bit
                     genes[j] = '0' if gene == '1' else '1'
 
             # reconverte a lista de volta para string
             self.population[i] = ''.join(genes)
-            print(f'Depois da mutacao: {self.population[i]}')
+            # print(f'Depois da mutacao: {self.population[i]}')
                     
 
 

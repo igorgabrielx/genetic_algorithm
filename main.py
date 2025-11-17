@@ -8,10 +8,9 @@ if __name__ == "__main__":
 
    ag.generate_fitness()
 
-   num_gen = ag.num_gen 
+   # num_gen = ag.num_gen 
    param_stop = 0
-
-   while param_stop < num_gen:
+   while param_stop < ag.num_gen:   
 
       ag.select_parent()
 
