@@ -111,7 +111,6 @@ class Genetic_Algorithm:
         
         for f in self.fitness:
             acum += f / total_fit
-            print(acum)
             prob_acum.append(acum)
         
         # Gira a roleta
