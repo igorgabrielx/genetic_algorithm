@@ -111,59 +111,65 @@ class Genetic_Algorithm:
         
         for f in self.fitness:
             acum += f / total_fit
+            print(acum)
             prob_acum.append(acum)
         
         # Gira a roleta
-        while len(self.selected_individuals) < self.population:
+        while len(self.selected_individuals) < self.pop_size:
 
             r = random.random()
 
             for i, p in enumerate(prob_acum):
-                if r <= p:
+                if r < p:
                     self.selected_individuals.append(self.population[i])
                     break
         
-        print(f'Tamanho da populacao: {self.population}')
-        print(f'Tamanho da populacao selecionada: {self.new_population}')
-        print(f'Tamanho da populacao filhos: {self.selected_individuals}')
+        # print(f'Tamanho da populacao: {len(self.population)}')
+        # print(f'Tamanho da populacao selecionada: {len(self.new_population)}')
+        # print(f'Tamanho da populacao filhos: {len(self.selected_individuals)}')
 
     def beget_children(self):
-        r = random.random()
-        
-        self.new_population = max(self.selected_individuals)
 
         best_index = self.fitness.index(max(self.fitness))
         best_individual = self.population[best_index]
         self.new_population.append(best_individual)
 
-        while len(self.new_population) < self.pop_size:
+        # while len(self.new_population) < self.pop_size:
 
-            for i, p in enumerate(self.selected_individuals):
+        for i, p in enumerate(self.selected_individuals):
 
-                child_one = p
+            r = random.random()
 
-                if (i+1) >= len(self.selected_individuals):
-                    child_two = p
-                else:
-                    child_two = self.selected_individuals[i+1]
+            child_one = p
 
-                if r < self.taxa_crossover:
-                    corte = random.randint(1, 44)
-                    child_01 = child_one[:corte] + child_two[corte:]
-                    child_02 = child_two[:corte] + child_one[corte:]
-                else:
-                    child_01 = child_two
-                    child_02 = child_one
-                
+            if (i+1) == len(self.selected_individuals):
+                child_two = p
+            else:
+                child_two = self.selected_individuals[i+1]
+
+            if r < self.taxa_crossover:
+                corte = random.randint(1, 44)
+                child_01 = child_one[:corte] + child_two[corte:]
+                child_02 = child_two[:corte] + child_one[corte:]
+            else:
+                child_01 = child_two
+                child_02 = child_one
+            
+            # self.new_population.append(child_01)
+            # self.new_population.append(child_02)
+
+            if len(self.new_population) < self.pop_size:
                 self.new_population.append(child_01)
-                self.new_population.append(child_02)
 
+            if len(self.new_population) < self.pop_size:
+                self.new_population.append(child_02)
+ 
         self.population = self.new_population
         self.new_population = []
         self.selected_individuals = []
+
     
     def mutation(self):
-        print('Iniciando Mutacao')
         pm = self.taxa_mutation
 
         for i, p in enumerate(self.population):
