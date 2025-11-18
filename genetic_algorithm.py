@@ -114,7 +114,7 @@ class Genetic_Algorithm:
             prob_acum.append(acum)
         
         # Gira a roleta
-        while len(self.selected_individuals) < 50:
+        while len(self.selected_individuals) < self.population:
 
             r = random.random()
 
@@ -128,7 +128,7 @@ class Genetic_Algorithm:
         
         self.new_population = max(self.selected_individuals)
 
-        while len(self.new_population) < 100:
+        while len(self.new_population) < self.pop_size:
 
             for i, p in enumerate(self.selected_individuals):
 
