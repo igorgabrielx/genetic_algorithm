@@ -122,6 +122,10 @@ class Genetic_Algorithm:
                 if r <= p:
                     self.selected_individuals.append(self.population[i])
                     break
+        
+        print(f'Tamanho da populacao: {self.population}')
+        print(f'Tamanho da populacao selecionada: {self.new_population}')
+        print(f'Tamanho da populacao filhos: {self.selected_individuals}')
 
     def beget_children(self):
         r = random.random()
