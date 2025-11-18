@@ -1,5 +1,6 @@
 import random
 import math
+import matplotlib.pyplot as plt
 
 class Genetic_Algorithm:
 
@@ -28,7 +29,7 @@ class Genetic_Algorithm:
         min_val=-100,
         taxa_crossover=0.65,
         taxa_mutation=0.008,
-        num_gen=0
+        num_gen=400
     ):
         self.pop_size = pop_size
         self.bit_size = bit_size
@@ -45,6 +46,7 @@ class Genetic_Algorithm:
         self.new_population = []
         self.max_value = 0
         self.chromosome_max_value = ''
+        self.historico_fitness = []
 
     def initialize_population(self):
 
@@ -98,10 +100,12 @@ class Genetic_Algorithm:
 
         self.max_value = max(self.fitness)
 
+        self.historico_fitness.append(self.max_value    )
+
         best_index = self.fitness.index(self.max_value)
 
         self.chromosome_max_value = self.population[best_index] 
-        print(f'Value: {self.max_value} - Chromosome: {self.chromosome_max_value} \n')
+        print(f'Value: {self.max_value:.8f} - Chromosome: {self.chromosome_max_value} \n')
         
 
     def select_parent(self):
@@ -186,6 +190,13 @@ class Genetic_Algorithm:
             # reconverte a lista de volta para string
             self.population[i] = ''.join(genes)
             # print(f'Depois da mutacao: {self.population[i]}')
+    def show(self):
+        plt.plot(self.historico_fitness)
+        plt.title("Evolução do Fitness ao Longo das Gerações")
+        plt.xlabel("Geração")
+        plt.ylabel("Fitness Máximo")
+        plt.grid(True)
+        plt.show()
                     
 
 

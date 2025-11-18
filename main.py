@@ -23,8 +23,9 @@ if __name__ == "__main__":
       param_stop = param_stop + 1
 
    print('Fim')
+   ag.show()
 
-   print(f'Populacao Final: ${ag.population}')
-   print(f'Resultado Populacao {ag.fitness}')
+   # print(f'Populacao Final: ${ag.population}')
+   # print(f'Resultado Populacao {ag.fitness}')
 
    
