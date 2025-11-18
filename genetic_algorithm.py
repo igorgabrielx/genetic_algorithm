@@ -132,6 +132,10 @@ class Genetic_Algorithm:
         
         self.new_population = max(self.selected_individuals)
 
+        best_index = self.fitness.index(max(self.fitness))
+        best_individual = self.population[best_index]
+        self.new_population.append(best_individual)
+
         while len(self.new_population) < self.pop_size:
 
             for i, p in enumerate(self.selected_individuals):
